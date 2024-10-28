@@ -5,9 +5,9 @@ import java.time.LocalTime;
 
 public class WorkDay {
 
-    private DayOfWeek day;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private final DayOfWeek day;
+    private final LocalTime startTime;
+    private final LocalTime endTime;
 
     public WorkDay(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
         this.day = day;

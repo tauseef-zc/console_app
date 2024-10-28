@@ -2,11 +2,12 @@ package com.tauseef.app.entities;
 
 public class Dermatologist {
 
-    private int id;
-    private String name;
+    private static int indexId = 1;
+    final private int id;
+    final private String name;
 
-    public Dermatologist(int id, String name) {
-        this.id = id;
+    public Dermatologist(String name) {
+        this.id = indexId++;
         this.name = name;
     }
 
@@ -16,6 +17,10 @@ public class Dermatologist {
 
     public String getName() {
         return name;
+    }
+
+    public static int getIndexId() {
+        return indexId;
     }
 
     @Override

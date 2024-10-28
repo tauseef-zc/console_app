@@ -2,10 +2,22 @@ package com.tauseef.app.entities;
 
 import com.tauseef.app.TestCase;
 import com.tauseef.app.core.Console;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PatientTest extends TestCase {
+
+    @BeforeEach
+    void setUp() {
+        Patient.reset();
+    }
+
+    @Test
+    void getId() {
+        Patient patient = createPatient();
+        assertEquals(1, patient.getId());
+    }
 
     @Test
     void getName() {
@@ -50,9 +62,29 @@ class PatientTest extends TestCase {
     @Test
     void updateField() {
         Patient patient = createPatient();
-        patient.updateField("name", "Tauseef",  new Console());
+        String name = faker.name().firstName();
+        patient.updateField("name", name,  new Console());
 
-        assertEquals("Tauseef", patient.getName());
+        assertEquals(name, patient.getName());
     }
 
+    @Test
+    void testToString() {
+        Patient patient = createPatient();
+        String text = "Patient{" +
+                "id='" + patient.getId() +
+                ", name=" + patient.getName() +
+                ", email=" + patient.getEmail() +
+                ", phone=" + patient.getPhone() +
+                ", nic=" + patient.getNic() +
+                ", age=" + patient.getAge() +
+                '}';
+        assertEquals(text, patient.toString());
+    }
+
+    @Test
+    void fieldSet() {
+        Patient patient = createPatient();
+        patient.fieldSet();
+    }
 }

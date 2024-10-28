@@ -1,9 +1,10 @@
 package com.tauseef.app.services;
 
 import com.tauseef.app.core.Console;
+import com.tauseef.app.services.interfaces.ServiceInterface;
 
-public abstract class BaseService {
+public abstract class BaseService implements ServiceInterface {
 
-    Console console = new Console();
+    public final Console console = new Console();
 
 }

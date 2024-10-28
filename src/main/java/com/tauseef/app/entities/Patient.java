@@ -6,21 +6,12 @@ import java.util.HashMap;
 public class Patient {
 
     private static int indexId = 1;
-    private int id;
+    private final int id;
     private String name;
     private String email;
     private String phone;
     private String nic;
     private int age;
-
-    public Patient() {
-        this.id = indexId++;
-        this.name = "";
-        this.email = "";
-        this.phone = "";
-        this.nic = "";
-        this.age = 0;
-    }
 
     public Patient(String name, String email, String phone, String nic, int age) {
         this.id = indexId++;
@@ -29,6 +20,10 @@ public class Patient {
         this.phone = phone;
         this.nic = nic;
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -86,7 +81,7 @@ public class Patient {
 
     public HashMap<String, String> fieldSet()
     {
-        HashMap<String, String> fieldList = new HashMap<String, String>();
+        HashMap<String, String> fieldList = new HashMap<>();
         fieldList.put("name", "Name");
         fieldList.put("email", "Email");
         fieldList.put("phone", "Phone Number");
@@ -99,12 +94,16 @@ public class Patient {
     @Override
     public String toString() {
         return "Patient{" +
-                "id='" + id + '\'' +
+                "id='" + id +
                 ", name=" + name +
                 ", email=" + email +
                 ", phone=" + phone +
                 ", nic=" + nic +
                 ", age=" + age +
                 '}';
+    }
+    public static void reset()
+    {
+        indexId = 1;
     }
 }

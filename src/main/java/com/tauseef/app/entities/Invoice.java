@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 public class Invoice {
 
-    private static int startIndex = 1;
-    private String id;
-    private Appointment appointment;
-    private double taxAmount;
-    private double totalAmount;
-    private LocalDateTime invoiceDate;
+    private static int indexId = 1;
+    final private String id;
+    final private Appointment appointment;
+    private final double taxAmount;
+    private final double totalAmount;
+    final private LocalDateTime invoiceDate;
 
     public Invoice(
             LocalDateTime invoiceDate,
@@ -17,7 +17,7 @@ public class Invoice {
             double taxAmount,
             Appointment appointment
     ) {
-        this.id = String.format("INV%03d", startIndex++);
+        this.id = String.format("INV%03d", indexId++);
         this.invoiceDate = invoiceDate;
         this.totalAmount = totalAmount;
         this.taxAmount = taxAmount;
@@ -45,6 +45,6 @@ public class Invoice {
     }
 
     public static void reset() {
-        startIndex = 1;
+        indexId = 1;
     }
 }

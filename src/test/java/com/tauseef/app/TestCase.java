@@ -2,11 +2,14 @@ package com.tauseef.app;
 
 import com.github.javafaker.Faker;
 import com.tauseef.app.entities.*;
+
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class TestCase {
 
-    public Faker faker = new Faker();
+    public final Faker faker = new Faker();
 
     public Treatment createTreatment()
     {
@@ -23,15 +26,13 @@ public class TestCase {
 
     public Dermatologist createDoctor()
     {
-        return createDoctor(0, null);
+        return createDoctor(null);
     }
 
-    public Dermatologist createDoctor(int id, String name)
+    public Dermatologist createDoctor(String name)
     {
-        int doctorId = id <= 0 ? faker.number().numberBetween(1, 100) : id;
         String doctorName = name != null ? name : faker.name().firstName();
-
-        return new Dermatologist(doctorId, doctorName);
+        return new Dermatologist(doctorName);
     }
 
     public Patient createPatient()
@@ -96,6 +97,19 @@ public class TestCase {
                 fakeAppointment.getTaxAmount(),
                 fakeAppointment
         );
+    }
+
+    public WorkDay createWorkDay()
+    {
+        return createWorkDay(null, null, null);
+    }
+
+    public WorkDay createWorkDay(DayOfWeek day, LocalTime startTime, LocalTime endTime)
+    {
+        DayOfWeek wkDay = day != null ? day : DayOfWeek.WEDNESDAY;
+        LocalTime wkStartTime = startTime != null ? startTime : LocalTime.now();
+        LocalTime wkEndTime = endTime != null ? endTime : LocalTime.now();
+        return new WorkDay(wkDay, wkStartTime, wkEndTime);
     }
 
 }

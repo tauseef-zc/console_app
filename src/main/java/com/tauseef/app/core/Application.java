@@ -1,11 +1,15 @@
 package com.tauseef.app.core;
 
+import com.tauseef.app.entities.Appointment;
+import com.tauseef.app.repositories.AppointmentRepository;
+import com.tauseef.app.repositories.InvoiceRepository;
 import com.tauseef.app.services.*;
+import com.tauseef.app.services.interfaces.*;
 
 public class Application {
 
-    private final PaymentService paymentService;
-    private final AppointmentService appointmentService;
+    private final IPaymentService paymentService;
+    private final IAppointmentService appointmentService;
     private final Console console;
     private final String[] menuOptions = {
             "Make an appointment",
@@ -17,18 +21,16 @@ public class Application {
     };
 
     public Application(Console console) {
-        PatientService patientService = new PatientService();
-        DermatologistService dermatologistService = new DermatologistService();
-        ClinicService clinicService = new ClinicService();
-        this.appointmentService = new AppointmentService(patientService, dermatologistService, clinicService);
-        this.paymentService = new PaymentService(appointmentService);
+
+        AppointmentRepository appointmentRepository = new AppointmentRepository();
+        InvoiceRepository invoiceRepository = new InvoiceRepository();
+        this.appointmentService = new AppointmentService(appointmentRepository);
+        this.paymentService = new PaymentService(appointmentRepository, invoiceRepository);
         this.console = console;
     }
 
-    public void run()
-    {
+    public void run() {
         while (true) {
-
             this.viewInfo();
             int option = console.askOption("Enter your choice: ", "Main Menu", menuOptions);
 
@@ -39,7 +41,7 @@ public class Application {
                 case 4: appointmentService.updateAppointment(); break;
                 case 5: paymentService.generateInvoice(); break;
                 case 6: exitSystem();
-                default: console.error("Invalid choice entered");
+                default: return;
             }
         }
     }

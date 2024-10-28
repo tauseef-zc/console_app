@@ -1,23 +1,23 @@
 package com.tauseef.app.services;
 
 import com.tauseef.app.entities.Dermatologist;
+import com.tauseef.app.services.interfaces.IDermatologistService;
+
 import java.util.ArrayList;
 
-public class DermatologistService extends BaseService{
+public class DermatologistService extends BaseService implements IDermatologistService {
 
     private final ArrayList<Dermatologist> doctors;
 
     public DermatologistService() {
         super();
-        this.doctors = new ArrayList<Dermatologist>();
+        this.doctors = new ArrayList<>();
         seedData();
     }
 
     public void seedData() {
-        Dermatologist doctor1 = new Dermatologist(1, "Dr.Perera");
-        Dermatologist doctor2 = new Dermatologist(2, "Dr.Herath");
-        doctors.add(doctor1);
-        doctors.add(doctor2);
+        doctors.add(new Dermatologist("Dr.Perera"));
+        doctors.add(new Dermatologist("Dr.Herath"));
     }
 
     public ArrayList<Dermatologist> getDoctors() {
@@ -29,14 +29,15 @@ public class DermatologistService extends BaseService{
         int doctorId = console.askOption(
                 "Please select the dermatologist you wish to see: ",
                 "Dermatologists",
-                doctorNames);
-        return doctors.get(doctorId - 1);
+                doctorNames) - 1;
+        return doctors.get(doctorId);
     }
 
     private String[] getDoctorNames() {
         String[] doctorNames = new String[doctors.size()];
+        int i = 0;
         for (Dermatologist doctor : doctors) {
-            doctorNames[doctor.getId() - 1] = doctor.getName();
+            doctorNames[i++] = doctor.getName();
         }
         return doctorNames;
     }

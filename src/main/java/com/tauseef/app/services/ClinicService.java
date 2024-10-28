@@ -4,22 +4,25 @@ import com.tauseef.app.entities.Appointment;
 import com.tauseef.app.entities.Dermatologist;
 import com.tauseef.app.entities.Treatment;
 import com.tauseef.app.entities.WorkDay;
+import com.tauseef.app.repositories.AppointmentRepository;
+import com.tauseef.app.services.interfaces.IClinicService;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class ClinicService extends BaseService{
+public class ClinicService extends BaseService implements IClinicService {
 
+    private final AppointmentRepository appointments;
     private final ArrayList<WorkDay> workingDays;
     private final ArrayList<Treatment> treatments;
 
-    public ClinicService() {
-
-        workingDays = new ArrayList<WorkDay>();
-        treatments = new ArrayList<Treatment>();
+    public ClinicService(AppointmentRepository appointments)
+    {
+        this.appointments = appointments;
+        workingDays = new ArrayList<>();
+        treatments = new ArrayList<>();
 
         loadBusinessDays();
         loadTreatments();
@@ -27,28 +30,26 @@ public class ClinicService extends BaseService{
 
     public ArrayList<LocalTime> getAvailableTimeSlots(
             LocalDate date,
-            Dermatologist dermatologist,
-            ArrayList<Appointment> appointments
+            Dermatologist dermatologist
     ) {
 
         DayOfWeek day = date.getDayOfWeek();
-        Optional<WorkDay> appointmentDay = workingDays.stream().filter(workDay->workDay.getDay().equals(day)).findAny();
+        WorkDay appointmentDay = workingDays.stream().filter(workDay->workDay.getDay().equals(day))
+                .findFirst()
+                .orElse(null);
 
-        if(appointmentDay.isEmpty()) {
-            console.error("Appointment not available on selected day!");
-            return new ArrayList<LocalTime>();
+        if(appointmentDay == null) {
+            console.error("Clinic is closed on given date. Please choose another date!");
+            return new ArrayList<>();
         }
 
         List<Appointment> filterAppointments = new ArrayList<>();
 
-        if(!appointments.isEmpty()){
-            filterAppointments = appointments.stream()
-                    .filter(appointment -> appointment.getDate().equals(date)
-                            && appointment.getDermatologist().getId() == dermatologist.getId())
-                    .toList();
+        if(!appointments.getAppointments().isEmpty()){
+            filterAppointments = appointments.findByDateAndDermatologist(date, dermatologist);
         }
 
-        return generateTimeSlots(appointmentDay.get(), filterAppointments);
+        return generateTimeSlots(appointmentDay, filterAppointments);
     }
 
     private ArrayList<LocalTime> generateTimeSlots(WorkDay workDay, List<Appointment> filterAppointments)
@@ -71,6 +72,10 @@ public class ClinicService extends BaseService{
             startTime = startTime.plusMinutes(15);
         }
 
+        if (availableSlots.isEmpty()) {
+            console.error("Booking is closed on given date. Please choose another date!");
+        }
+
         return availableSlots;
     }
 
@@ -80,10 +85,10 @@ public class ClinicService extends BaseService{
 
     private void loadBusinessDays()
     {
-        WorkDay monday = new WorkDay(DayOfWeek.MONDAY, LocalTime.of(10, 00), LocalTime.of(13, 00));
-        WorkDay wednesday = new WorkDay(DayOfWeek.WEDNESDAY, LocalTime.of(14, 00), LocalTime.of(17, 00));
-        WorkDay friday = new WorkDay(DayOfWeek.FRIDAY, LocalTime.of(14, 00), LocalTime.of(17, 00));
-        WorkDay saturday = new WorkDay(DayOfWeek.SATURDAY, LocalTime.of(14, 00), LocalTime.of(17, 00));
+        WorkDay monday = new WorkDay(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(13, 0));
+        WorkDay wednesday = new WorkDay(DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), LocalTime.of(17, 0));
+        WorkDay friday = new WorkDay(DayOfWeek.FRIDAY, LocalTime.of(14, 0), LocalTime.of(17, 0));
+        WorkDay saturday = new WorkDay(DayOfWeek.SATURDAY, LocalTime.of(14, 0), LocalTime.of(17, 0));
 
         workingDays.add(monday);
         workingDays.add(wednesday);

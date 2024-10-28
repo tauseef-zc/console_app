@@ -6,15 +6,17 @@ import java.util.ArrayList;
 
 public class Appointment {
 
-    private static int nextId = 1;
-    private String id;
-    private Patient patient;
+    public static double registrationFee = 500.00;
+    public static double taxPercentage = 2.5;
+    public static int indexId = 1;
+    private final String id;
+    private final Patient patient;
     private LocalDateTime dateTime;
-    private ArrayList<Treatment> treatments;
-    private Dermatologist dermatologist;
+    private final ArrayList<Treatment> treatments;
+    private final Dermatologist dermatologist;
 
     public Appointment(Patient patient, Dermatologist dermatologist, LocalDateTime dateTime) {
-        this.id = String.format("AID%03d", nextId++);
+        this.id = String.format("AID%03d", indexId++);
         this.patient = patient;
         this.dermatologist = dermatologist;
         this.dateTime = dateTime;
@@ -45,13 +47,6 @@ public class Appointment {
         return dermatologist;
     }
 
-    public Treatment getTreatment(String name) {
-        return treatments.stream()
-                .filter(t -> t.getName().equals(name))
-                .findFirst()
-                .orElse(null);
-    }
-
     public ArrayList<Treatment> getTreatments() {
         return treatments;
     }
@@ -68,15 +63,13 @@ public class Appointment {
                 total += treatment.getPrice();
             }
         }
-        return total;
+        return registrationFee + total;
     }
 
     public double getTaxAmount()
     {
-        double taxPercent = 15;
         double totalTreatment = getTreatmentTotal();
-
-        return totalTreatment > 0 ? (totalTreatment * taxPercent) / 100 : 0.00;
+        return totalTreatment > 0 ? (totalTreatment * taxPercentage) / 100 : 0.00;
     }
 
     public double getFullTotal()

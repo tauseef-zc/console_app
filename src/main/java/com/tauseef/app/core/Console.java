@@ -1,7 +1,6 @@
 package com.tauseef.app.core;
 
 import com.tauseef.app.enums.Color;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -20,23 +19,21 @@ public class Console {
     }
 
     public void heading(String text) {
-        StringBuilder sb = new StringBuilder()
-                .append(Color.WHITE_BACKGROUND)
-                .append(Color.BLACK_BOLD)
-                .append(" ")
-                .append(text)
-                .append(" ");
-        text(sb.toString());
+        String sb = String.valueOf(Color.WHITE_BACKGROUND) +
+                Color.BLACK_BOLD +
+                " " +
+                text +
+                " ";
+        text(sb);
     }
 
     public void highlight(String text) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Color.YELLOW_BACKGROUND)
-                .append(Color.BLACK_BOLD)
-                .append(" ")
-                .append(text)
-                .append(" ");
-        text(sb.toString());
+        String sb = String.valueOf(Color.YELLOW_BACKGROUND) +
+                Color.BLACK_BOLD +
+                " " +
+                text +
+                " ";
+        text(sb);
     }
 
     public void title(String text) {
@@ -115,7 +112,6 @@ public class Console {
 
     public int askOption(String question, String optionHeading, String[] options) {
         question(optionHeading);
-        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < options.length; i++) {
             option(i+1, options[i], false);
         }
@@ -147,7 +143,7 @@ public class Console {
         if (newLine) {
             sb.append('\n');
         }
-        System.out.println(sb.toString() + Color.RESET);
+        text(sb.toString());
     }
 
     public void text(String text) {

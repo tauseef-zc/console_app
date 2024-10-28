@@ -4,7 +4,11 @@ import com.tauseef.app.entities.Appointment;
 import com.tauseef.app.entities.Dermatologist;
 import com.tauseef.app.entities.Patient;
 import com.tauseef.app.entities.Treatment;
-
+import com.tauseef.app.repositories.AppointmentRepository;
+import com.tauseef.app.services.interfaces.IAppointmentService;
+import com.tauseef.app.services.interfaces.IClinicService;
+import com.tauseef.app.services.interfaces.IDermatologistService;
+import com.tauseef.app.services.interfaces.IPatientService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,23 +16,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class AppointmentService extends BaseService {
+public class AppointmentService extends BaseService implements IAppointmentService {
 
-    private PatientService patientService;
-    private DermatologistService dermatologistService;
-    private ClinicService clinicService;
-    private ArrayList<Appointment> appointments;
+    private final IPatientService patientService;
+    private final IDermatologistService dermatologistService;
+    private final IClinicService clinicService;
+    private final AppointmentRepository appointments;
 
-    public AppointmentService(PatientService patientService,
-                              DermatologistService dermatologistService,
-                              ClinicService clinicService) {
+    public AppointmentService(AppointmentRepository appointments) {
         super();
-        this.patientService = patientService;
-        this.dermatologistService = dermatologistService;
-        this.clinicService = clinicService;
-        this.appointments = new ArrayList<>();
+        this.appointments = appointments;
+        this.patientService = new PatientService();
+        this.dermatologistService = new DermatologistService();
+        this.clinicService = new ClinicService(this.appointments);
     }
 
     public void makeAppointment() {
@@ -42,9 +43,7 @@ public class AppointmentService extends BaseService {
                 "Do you want to continue?");
 
         if (isPaid) {
-            Appointment appointment = new Appointment(patient, doctor, appointmentDate);
-            appointments.add(appointment);
-
+            Appointment appointment = appointments.create(new Appointment(patient, doctor, appointmentDate));
             console.success("Appointment created successfully!");
 
             this.displayAppointment(appointment);
@@ -63,9 +62,7 @@ public class AppointmentService extends BaseService {
         console.title("View Appointments by Date");
 
         LocalDate appointmentDate = console.askDate("Please enter appointment date (YYYY-MM-DD):");
-        List<Appointment> filterAppointments = appointments.stream()
-                .filter(appointment -> appointment.getDate().toString().equals(appointmentDate.toString()))
-                .toList();
+        List<Appointment> filterAppointments = appointments.findByDate(appointmentDate);
 
         if (!filterAppointments.isEmpty()) {
             ArrayList<Dermatologist> doctors = dermatologistService.getDoctors();
@@ -102,13 +99,10 @@ public class AppointmentService extends BaseService {
                 );
 
         if (searchOption == 1) {
-            displayAppointmentConfirmation(appointments);
+            displayAppointmentConfirmation(appointments.getAppointments());
         } else {
             String answer = console.ask("Please enter Patient name or NIC: ");
-            List<Appointment> filterAppointments = appointments.stream()
-                    .filter(appointment -> appointment.getPatient().getName().equals(answer) ||
-                            appointment.getPatient().getNic().equals(answer))
-                    .toList();
+            List<Appointment> filterAppointments = appointments.findByPatientNameOrNic(answer);
             if (!filterAppointments.isEmpty()) {
                 generateTable(filterAppointments);
                 displayAppointmentConfirmation(filterAppointments);
@@ -145,7 +139,7 @@ public class AppointmentService extends BaseService {
         while (true) {
 
             LocalDate appointmentDate = console.askDate("Please enter appointment date (YYYY-MM-DD):");
-            ArrayList<LocalTime> slots = clinicService.getAvailableTimeSlots(appointmentDate, doctor, appointments);
+            ArrayList<LocalTime> slots = clinicService.getAvailableTimeSlots(appointmentDate, doctor);
 
             if (!slots.isEmpty()) {
                 int i = 0;
@@ -219,16 +213,19 @@ public class AppointmentService extends BaseService {
                 console.text("Your current appointment at " + appointment.getDateTime().toString());
                 LocalDateTime rescheduleDate = this.getAvailableSlot(appointment.getDermatologist());
                 rescheduleAppointment(appointment, rescheduleDate);
+                break;
             case 2:
                 updateInformation(appointment);
+                break;
             case 3:
                 cancelAppointment(appointment);
+                break;
         }
     }
 
     private void cancelAppointment(Appointment appointment) {
         if (console.askBoolean("Do you want to cancel this appointment?")) {
-            appointments.remove(appointment);
+            appointments.delete(appointment);
             console.success("The Appointment is cancelled!");
         }
     }
@@ -275,14 +272,14 @@ public class AppointmentService extends BaseService {
         console.emptySpace();
         console.title("Appointment details");
 
-        builder.append("- Appointment ID: " + appointment.getId()).append("\n");
-        builder.append("- Appointment Date: " + appointment.getDateTime().format(formatter)).append("\n");
-        builder.append("- Dermatologist: " + doctor.getName()).append("\n");
-        builder.append("- Patient Name: " + patient.getName()).append("\n");
-        builder.append("- Patient Email: " + patient.getEmail()).append("\n");
-        builder.append("- Patient Phone: " + patient.getPhone()).append("\n");
-        builder.append("- Patient NIC: " + patient.getNic()).append("\n");
-        builder.append("- Patient Age: " + patient.getAge());
+        builder.append("- Appointment ID: ").append(appointment.getId()).append("\n");
+        builder.append("- Appointment Date: ").append(appointment.getDateTime().format(formatter)).append("\n");
+        builder.append("- Dermatologist: ").append(doctor.getName()).append("\n");
+        builder.append("- Patient Name: ").append(patient.getName()).append("\n");
+        builder.append("- Patient Email: ").append(patient.getEmail()).append("\n");
+        builder.append("- Patient Phone: ").append(patient.getPhone()).append("\n");
+        builder.append("- Patient NIC: ").append(patient.getNic()).append("\n");
+        builder.append("- Patient Age: ").append(patient.getAge());
         console.text(builder.toString());
 
         if (!appointment.getTreatments().isEmpty()) {
@@ -305,22 +302,17 @@ public class AppointmentService extends BaseService {
                 "Phone Number",
                 "NIC");
         console.text("-".repeat(82));
-        appointments.forEach(appointment -> {
-                    System.out.printf("%-6s | %-16s | %-20s | %-12s | %-16s%n",
-                            appointment.getId(),
-                            appointment.getDateTime().toLocalTime().toString(),
-                            appointment.getPatient().getName(),
-                            appointment.getPatient().getPhone(),
-                            appointment.getPatient().getNic()
-                    );
-                });
+        appointments.forEach(appointment -> System.out.printf("%-6s | %-16s | %-20s | %-12s | %-16s%n",
+                appointment.getId(),
+                appointment.getDateTime().toLocalTime().toString(),
+                appointment.getPatient().getName(),
+                appointment.getPatient().getPhone(),
+                appointment.getPatient().getNic()
+        ));
         console.emptySpace();
     }
 
     public Appointment getAppointment(String appointmentId) {
-        return appointments.stream()
-                .filter(appointment -> appointment.getId().equals(appointmentId))
-                .findFirst()
-                .orElse(null);
+        return appointments.findById(appointmentId);
     }
 }

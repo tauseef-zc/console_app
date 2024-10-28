@@ -2,7 +2,6 @@ package com.tauseef.app;
 
 import com.github.javafaker.Faker;
 import com.tauseef.app.entities.*;
-
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -87,10 +86,6 @@ public class TestCase {
                 fakeAppointment.getTaxAmount(),
                 fakeAppointment
         );
-    }
-
-    public WorkDay createWorkDay() {
-        return createWorkDay(null, null, null);
     }
 
     public WorkDay createWorkDay(DayOfWeek day, LocalTime startTime, LocalTime endTime) {

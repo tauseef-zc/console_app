@@ -1,7 +1,5 @@
 package com.tauseef.app.services.interfaces;
 
-import com.tauseef.app.entities.Appointment;
-
 public interface IAppointmentService extends ServiceInterface {
 
     void makeAppointment();
@@ -12,5 +10,4 @@ public interface IAppointmentService extends ServiceInterface {
 
     void updateAppointment();
 
-    Appointment getAppointment(String appointmentId);
 }

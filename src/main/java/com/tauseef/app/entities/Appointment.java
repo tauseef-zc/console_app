@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Appointment {
 
-    public static double registrationFee = 500.00;
-    public static double taxPercentage = 2.5;
+    public final static double registrationFee = 500.00;
+    public final static double taxPercentage = 2.5;
     public static int indexId = 1;
     private final String id;
     private final Patient patient;

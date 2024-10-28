@@ -56,7 +56,7 @@ class AppointmentTest extends TestCase {
         Appointment appointment = createAppointment();
         appointment.setTreatment(treatment);
 
-        assertEquals(treatment, appointment.getTreatments().stream().findFirst().get());
+        assertEquals(treatment, appointment.getTreatments().stream().findFirst().orElse(null));
     }
 
     @Test
@@ -65,7 +65,7 @@ class AppointmentTest extends TestCase {
         Appointment appointment = createAppointment();
         appointment.setTreatment(treatment);
 
-        assertEquals(treatment, appointment.getTreatments().stream().findFirst().get());
+        assertEquals(treatment, appointment.getTreatments().stream().findFirst().orElse(null));
     }
 
     @Test

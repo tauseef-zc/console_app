@@ -70,20 +70,20 @@ public class PaymentService extends BaseService implements IPaymentService {
         console.text("Email: " + patient.getEmail());
         console.text("Phone: " + patient.getPhone());
         console.text(separator);
-        System.out.printf("%-44s %-12s%n", "Registration Fee: ", formatNumber(Appointment.registrationFee, 2));
+        System.out.printf("%-44s %-12s%n", "Registration Fee: ", formatNumber(Appointment.registrationFee));
         if (!appointment.getTreatments().isEmpty()) {
             console.text(Color.WHITE_UNDERLINED + "Treatments");
             for (Treatment treatment : appointment.getTreatments()) {
                 System.out.printf("%-44s %-12s%n",
                         treatment.getName(),
-                        formatNumber(treatment.getPrice(), 2));
+                        formatNumber(treatment.getPrice()));
             }
             console.text(separator);
         }
-        System.out.printf("%-44s %-12s%n", "Total Treatment: ", formatNumber(appointment.getTreatmentTotal(), 2));
+        System.out.printf("%-44s %-12s%n", "Total Treatment: ", formatNumber(appointment.getTreatmentTotal()));
         System.out.printf("%-44s %-12s%n", "Tax (" + Appointment.taxPercentage + "%) Amount: ",
-                formatNumber(invoice.getTaxAmount(), 2));
-        System.out.printf("%-44s %-12s%n", "Total Amount: ", formatNumber(invoice.getTotalAmount(), 2));
+                formatNumber(invoice.getTaxAmount()));
+        System.out.printf("%-44s %-12s%n", "Total Amount: ", formatNumber(invoice.getTotalAmount()));
         console.text(separator);
         console.emptySpace();
     }
@@ -99,10 +99,10 @@ public class PaymentService extends BaseService implements IPaymentService {
         }
     }
 
-    private String formatNumber(double amount, int decimalPlaces) {
+    private String formatNumber(double amount) {
         NumberFormat formatter = NumberFormat.getNumberInstance();
-        formatter.setMinimumFractionDigits(decimalPlaces);
-        formatter.setMaximumFractionDigits(decimalPlaces);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
         formatter.setGroupingUsed(true);
         return formatter.format(amount);
     }

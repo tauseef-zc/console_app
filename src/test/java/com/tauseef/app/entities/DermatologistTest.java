@@ -3,7 +3,7 @@ package com.tauseef.app.entities;
 import com.tauseef.app.TestCase;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DermatologistTest extends TestCase {
 
@@ -25,7 +25,7 @@ class DermatologistTest extends TestCase {
     void testToString() {
         String name = faker.name().fullName();
         Dermatologist dermatologist = createDoctor(name);
-        String text = "Dermatologist: { id: "+ (Dermatologist.getIndexId() - 1) +", name: " + name + " }";
+        String text = "Dermatologist: { id: " + (Dermatologist.getIndexId() - 1) + ", name: " + name + " }";
 
         assertEquals(text, dermatologist.toString());
     }

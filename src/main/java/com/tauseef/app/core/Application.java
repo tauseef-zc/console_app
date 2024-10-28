@@ -1,10 +1,11 @@
 package com.tauseef.app.core;
 
-import com.tauseef.app.entities.Appointment;
 import com.tauseef.app.repositories.AppointmentRepository;
 import com.tauseef.app.repositories.InvoiceRepository;
-import com.tauseef.app.services.*;
-import com.tauseef.app.services.interfaces.*;
+import com.tauseef.app.services.AppointmentService;
+import com.tauseef.app.services.PaymentService;
+import com.tauseef.app.services.interfaces.IAppointmentService;
+import com.tauseef.app.services.interfaces.IPaymentService;
 
 public class Application {
 
@@ -35,24 +36,35 @@ public class Application {
             int option = console.askOption("Enter your choice: ", "Main Menu", menuOptions);
 
             switch (option) {
-                case 1: appointmentService.makeAppointment(); break;
-                case 2: appointmentService.viewAppointments(); break;
-                case 3: appointmentService.searchAppointments(); break;
-                case 4: appointmentService.updateAppointment(); break;
-                case 5: paymentService.generateInvoice(); break;
-                case 6: exitSystem();
-                default: return;
+                case 1:
+                    appointmentService.makeAppointment();
+                    break;
+                case 2:
+                    appointmentService.viewAppointments();
+                    break;
+                case 3:
+                    appointmentService.searchAppointments();
+                    break;
+                case 4:
+                    appointmentService.updateAppointment();
+                    break;
+                case 5:
+                    paymentService.generateInvoice();
+                    break;
+                case 6:
+                    exitSystem();
+                default:
+                    return;
             }
         }
     }
 
-    private void exitSystem ()
-    {
+    private void exitSystem() {
         console.success("Thank you for using the Aurora Skin Care System!");
         System.exit(0);
     }
 
-    private void viewInfo(){
+    private void viewInfo() {
         console.heading("AURORA SKIN CARE CLINIC");
         console.highlight("Appointment Management System - V1.0");
         console.emptySpace();

@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface IClinicService extends ServiceInterface{
+public interface IClinicService extends ServiceInterface {
 
     ArrayList<LocalTime> getAvailableTimeSlots(
             LocalDate date,
@@ -21,13 +21,14 @@ public interface IClinicService extends ServiceInterface{
 
     private ArrayList<LocalTime> generateTimeSlots(
             WorkDay workDay,
-            List<Appointment> filterAppointments)
-    {
+            List<Appointment> filterAppointments) {
         return null;
     }
 
-    private void loadBusinessDays(){};
+    private void loadBusinessDays() {
+    }
 
-    private void loadTreatments(){};
+    private void loadTreatments() {
+    }
 
 }

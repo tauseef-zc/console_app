@@ -4,7 +4,8 @@ import com.tauseef.app.TestCase;
 import com.tauseef.app.core.Console;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PatientTest extends TestCase {
 
@@ -63,7 +64,7 @@ class PatientTest extends TestCase {
     void updateField() {
         Patient patient = createPatient();
         String name = faker.name().firstName();
-        patient.updateField("name", name,  new Console());
+        patient.updateField("name", name, new Console());
 
         assertEquals(name, patient.getName());
     }

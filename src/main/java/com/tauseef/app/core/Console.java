@@ -1,6 +1,7 @@
 package com.tauseef.app.core;
 
 import com.tauseef.app.enums.Color;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -43,7 +44,7 @@ public class Console {
         String separator = "=".repeat(totalLength);
         String stars = "*".repeat(starCount);
         text(separator);
-        text(Color.BLUE_BOLD + stars +" " + text + " " + stars);
+        text(Color.BLUE_BOLD + stars + " " + text + " " + stars);
         text(separator);
     }
 
@@ -103,9 +104,12 @@ public class Console {
         question("Please select an option:");
         while (true) {
             switch (scanner.nextLine().trim()) {
-                case "1": return true;
-                case "2": return false;
-                default: error("Invalid option. Please enter 1 or 2:");
+                case "1":
+                    return true;
+                case "2":
+                    return false;
+                default:
+                    error("Invalid option. Please enter 1 or 2:");
             }
         }
     }
@@ -113,7 +117,7 @@ public class Console {
     public int askOption(String question, String optionHeading, String[] options) {
         question(optionHeading);
         for (int i = 0; i < options.length; i++) {
-            option(i+1, options[i], false);
+            option(i + 1, options[i], false);
         }
         while (true) {
             int answer = askNumber(question, true);

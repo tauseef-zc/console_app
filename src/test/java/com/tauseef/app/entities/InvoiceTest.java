@@ -2,8 +2,10 @@ package com.tauseef.app.entities;
 
 import com.tauseef.app.TestCase;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDateTime;
-import static  org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InvoiceTest extends TestCase {
 

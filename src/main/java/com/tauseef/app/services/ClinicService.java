@@ -6,6 +6,7 @@ import com.tauseef.app.entities.Treatment;
 import com.tauseef.app.entities.WorkDay;
 import com.tauseef.app.repositories.AppointmentRepository;
 import com.tauseef.app.services.interfaces.IClinicService;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,8 +19,7 @@ public class ClinicService extends BaseService implements IClinicService {
     private final ArrayList<WorkDay> workingDays;
     private final ArrayList<Treatment> treatments;
 
-    public ClinicService(AppointmentRepository appointments)
-    {
+    public ClinicService(AppointmentRepository appointments) {
         this.appointments = appointments;
         workingDays = new ArrayList<>();
         treatments = new ArrayList<>();
@@ -34,26 +34,25 @@ public class ClinicService extends BaseService implements IClinicService {
     ) {
 
         DayOfWeek day = date.getDayOfWeek();
-        WorkDay appointmentDay = workingDays.stream().filter(workDay->workDay.getDay().equals(day))
+        WorkDay appointmentDay = workingDays.stream().filter(workDay -> workDay.getDay().equals(day))
                 .findFirst()
                 .orElse(null);
 
-        if(appointmentDay == null) {
+        if (appointmentDay == null) {
             console.error("Clinic is closed on given date. Please choose another date!");
             return new ArrayList<>();
         }
 
         List<Appointment> filterAppointments = new ArrayList<>();
 
-        if(!appointments.getAppointments().isEmpty()){
+        if (!appointments.getAppointments().isEmpty()) {
             filterAppointments = appointments.findByDateAndDermatologist(date, dermatologist);
         }
 
         return generateTimeSlots(appointmentDay, filterAppointments);
     }
 
-    private ArrayList<LocalTime> generateTimeSlots(WorkDay workDay, List<Appointment> filterAppointments)
-    {
+    private ArrayList<LocalTime> generateTimeSlots(WorkDay workDay, List<Appointment> filterAppointments) {
         ArrayList<LocalTime> availableSlots = new ArrayList<>();
         LocalTime startTime = workDay.getStartTime();
         LocalTime endTime = workDay.getEndTime();
@@ -83,8 +82,7 @@ public class ClinicService extends BaseService implements IClinicService {
         return treatments;
     }
 
-    private void loadBusinessDays()
-    {
+    private void loadBusinessDays() {
         WorkDay monday = new WorkDay(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(13, 0));
         WorkDay wednesday = new WorkDay(DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), LocalTime.of(17, 0));
         WorkDay friday = new WorkDay(DayOfWeek.FRIDAY, LocalTime.of(14, 0), LocalTime.of(17, 0));
@@ -96,8 +94,7 @@ public class ClinicService extends BaseService implements IClinicService {
         workingDays.add(saturday);
     }
 
-    private void loadTreatments()
-    {
+    private void loadTreatments() {
         Treatment acne = new Treatment("Acne Treatment", 2750.00);
         Treatment skin = new Treatment("Skin Whitening", 7650.00);
         Treatment mole = new Treatment("Mole Removal", 3850.00);

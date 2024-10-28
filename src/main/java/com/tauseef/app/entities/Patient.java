@@ -1,6 +1,7 @@
 package com.tauseef.app.entities;
 
 import com.tauseef.app.core.Console;
+
 import java.util.HashMap;
 
 public class Patient {
@@ -79,8 +80,7 @@ public class Patient {
         }
     }
 
-    public HashMap<String, String> fieldSet()
-    {
+    public HashMap<String, String> fieldSet() {
         HashMap<String, String> fieldList = new HashMap<>();
         fieldList.put("name", "Name");
         fieldList.put("email", "Email");
@@ -102,8 +102,8 @@ public class Patient {
                 ", age=" + age +
                 '}';
     }
-    public static void reset()
-    {
+
+    public static void reset() {
         indexId = 1;
     }
 }

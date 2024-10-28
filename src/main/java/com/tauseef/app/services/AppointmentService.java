@@ -9,6 +9,7 @@ import com.tauseef.app.services.interfaces.IAppointmentService;
 import com.tauseef.app.services.interfaces.IClinicService;
 import com.tauseef.app.services.interfaces.IDermatologistService;
 import com.tauseef.app.services.interfaces.IPatientService;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -87,8 +88,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         }
     }
 
-    public void searchAppointments()
-    {
+    public void searchAppointments() {
         console.title("Search Appointment");
         String[] options = {"By Appointment ID", "By Patient name or NIC"};
 
@@ -96,7 +96,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
                 "Please select a option:",
                 "Select your search type",
                 options
-                );
+        );
 
         if (searchOption == 1) {
             displayAppointmentConfirmation(appointments.getAppointments());
@@ -112,8 +112,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         }
     }
 
-    public void updateAppointment()
-    {
+    public void updateAppointment() {
         console.title("Update an Appointment");
         String appointmentId = console.ask("Please enter an appointment ID: ");
 
@@ -134,8 +133,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         }
     }
 
-    private LocalDateTime getAvailableSlot(Dermatologist doctor)
-    {
+    private LocalDateTime getAvailableSlot(Dermatologist doctor) {
         while (true) {
 
             LocalDate appointmentDate = console.askDate("Please enter appointment date (YYYY-MM-DD):");
@@ -154,8 +152,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         }
     }
 
-    private void displayAppointmentConfirmation(List<Appointment> appointments)
-    {
+    private void displayAppointmentConfirmation(List<Appointment> appointments) {
         String appointmentId = console.ask("Please enter an appointment ID: ");
         Appointment appointment = getAppointment(appointmentId);
 
@@ -168,8 +165,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
 
     }
 
-    private void handleContinueOption(List<Appointment> filterAppointments)
-    {
+    private void handleContinueOption(List<Appointment> filterAppointments) {
         String[] options = {"View Appointments", "Back to Main Menu"};
         int option = console.askOption("Please enter a option: ", "Do you want to continue?", options);
         if (option == 1) {
@@ -177,16 +173,14 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         }
     }
 
-    private void displayAppointment(Appointment appointment)
-    {
+    private void displayAppointment(Appointment appointment) {
         generateAppointmentView(appointment);
         if (console.askBoolean("Do you want to start a treatment?")) {
             addTreatmentsToAppointment(appointment);
         }
     }
 
-    private void addTreatmentsToAppointment(Appointment appointment)
-    {
+    private void addTreatmentsToAppointment(Appointment appointment) {
         ArrayList<Treatment> treatments = clinicService.getAllTreatments();
         String[] treatmentNames = new String[treatments.size()];
 
@@ -206,8 +200,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         }
     }
 
-    private void updateAppointment(Appointment appointment, int updateType)
-    {
+    private void updateAppointment(Appointment appointment, int updateType) {
         switch (updateType) {
             case 1:
                 console.text("Your current appointment at " + appointment.getDateTime().toString());
@@ -237,8 +230,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         console.success("Appointment updated successfully!");
     }
 
-    private void updateInformation(Appointment appointment)
-    {
+    private void updateInformation(Appointment appointment) {
         HashMap<String, String> fieldList = appointment.getPatient().fieldSet();
         String[] options = fieldList.values().toArray(new String[0]);
 
@@ -292,8 +284,7 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         console.emptySpace();
     }
 
-    private void generateTable(List<Appointment> appointments)
-    {
+    private void generateTable(List<Appointment> appointments) {
         console.text("-".repeat(82));
         System.out.printf("%-6s | %-16s | %-20s | %-12s | %-16s%n",
                 "ID",

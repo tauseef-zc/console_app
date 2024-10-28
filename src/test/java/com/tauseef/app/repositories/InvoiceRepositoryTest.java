@@ -5,7 +5,9 @@ import com.tauseef.app.entities.Appointment;
 import com.tauseef.app.entities.Invoice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InvoiceRepositoryTest extends TestCase {
 

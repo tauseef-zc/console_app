@@ -55,8 +55,7 @@ public class Appointment {
         this.treatments.add(treatment);
     }
 
-    public double getTreatmentTotal()
-    {
+    public double getTreatmentTotal() {
         double total = 0;
         if (!this.getTreatments().isEmpty()) {
             for (Treatment treatment : this.getTreatments()) {
@@ -66,14 +65,12 @@ public class Appointment {
         return registrationFee + total;
     }
 
-    public double getTaxAmount()
-    {
+    public double getTaxAmount() {
         double totalTreatment = getTreatmentTotal();
         return totalTreatment > 0 ? (totalTreatment * taxPercentage) / 100 : 0.00;
     }
 
-    public double getFullTotal()
-    {
+    public double getFullTotal() {
         return getTreatmentTotal() + getTaxAmount();
     }
 

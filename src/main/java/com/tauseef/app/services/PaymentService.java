@@ -5,6 +5,7 @@ import com.tauseef.app.enums.Color;
 import com.tauseef.app.repositories.AppointmentRepository;
 import com.tauseef.app.repositories.InvoiceRepository;
 import com.tauseef.app.services.interfaces.IPaymentService;
+
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -25,6 +25,6 @@ public class Dermatologist {
 
     @Override
     public String toString() {
-        return "Dermatologist: { id: " + id+ ", name: " + name + " }";
+        return "Dermatologist: { id: " + id + ", name: " + name + " }";
     }
 }

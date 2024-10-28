@@ -11,37 +11,31 @@ public class TestCase {
 
     public final Faker faker = new Faker();
 
-    public Treatment createTreatment()
-    {
+    public Treatment createTreatment() {
         return createTreatment(null, 0.00);
     }
 
-    public Treatment createTreatment(String name, double price)
-    {
+    public Treatment createTreatment(String name, double price) {
         String treatment = name != null ? name : faker.commerce().department();
         double treatmentPrice = price > 0 ? price : faker.number().randomDouble(2, 1000, 5000);
 
         return new Treatment(treatment, treatmentPrice);
     }
 
-    public Dermatologist createDoctor()
-    {
+    public Dermatologist createDoctor() {
         return createDoctor(null);
     }
 
-    public Dermatologist createDoctor(String name)
-    {
+    public Dermatologist createDoctor(String name) {
         String doctorName = name != null ? name : faker.name().firstName();
         return new Dermatologist(doctorName);
     }
 
-    public Patient createPatient()
-    {
+    public Patient createPatient() {
         return createPatient(null, null, null, null, 0);
     }
 
-    public Patient createPatient(String name, String address, String phone, String nic, int age)
-    {
+    public Patient createPatient(String name, String address, String phone, String nic, int age) {
 
         String patientName = name != null ? name : faker.name().firstName();
         String patientEmail = address != null ? address : faker.internet().emailAddress();
@@ -58,13 +52,11 @@ public class TestCase {
         );
     }
 
-    public Appointment createAppointment()
-    {
+    public Appointment createAppointment() {
         return createAppointment(null, null, null);
     }
 
-    public Appointment createAppointment(Patient patient, Dermatologist dermatologist, LocalDateTime dateTime)
-    {
+    public Appointment createAppointment(Patient patient, Dermatologist dermatologist, LocalDateTime dateTime) {
         Patient fakePatient = patient != null ? patient : createPatient();
         Dermatologist fakeDoctor = dermatologist != null ? dermatologist : createDoctor();
         LocalDateTime fakeDateTime = dateTime != null ? dateTime : LocalDateTime.now();
@@ -76,13 +68,11 @@ public class TestCase {
         );
     }
 
-    public Invoice createInvoice()
-    {
+    public Invoice createInvoice() {
         return createInvoice(null, null);
     }
 
-    public Invoice createInvoice(LocalDateTime dateTime, Appointment appointment)
-    {
+    public Invoice createInvoice(LocalDateTime dateTime, Appointment appointment) {
         LocalDateTime invoiceDate = dateTime != null ? dateTime : LocalDateTime.now();
         Appointment fakeAppointment = appointment != null ? appointment : createAppointment();
 
@@ -99,13 +89,11 @@ public class TestCase {
         );
     }
 
-    public WorkDay createWorkDay()
-    {
+    public WorkDay createWorkDay() {
         return createWorkDay(null, null, null);
     }
 
-    public WorkDay createWorkDay(DayOfWeek day, LocalTime startTime, LocalTime endTime)
-    {
+    public WorkDay createWorkDay(DayOfWeek day, LocalTime startTime, LocalTime endTime) {
         DayOfWeek wkDay = day != null ? day : DayOfWeek.WEDNESDAY;
         LocalTime wkStartTime = startTime != null ? startTime : LocalTime.now();
         LocalTime wkEndTime = endTime != null ? endTime : LocalTime.now();

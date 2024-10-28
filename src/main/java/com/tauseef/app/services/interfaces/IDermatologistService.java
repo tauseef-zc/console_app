@@ -4,13 +4,15 @@ import com.tauseef.app.entities.Dermatologist;
 
 import java.util.ArrayList;
 
-public interface IDermatologistService
-{
+public interface IDermatologistService {
     void seedData();
 
     ArrayList<Dermatologist> getDoctors();
 
     Dermatologist selectDoctor();
 
-    private String[] getDoctorNames() { return null; };
+    private String[] getDoctorNames() {
+        return null;
+    }
+
 }

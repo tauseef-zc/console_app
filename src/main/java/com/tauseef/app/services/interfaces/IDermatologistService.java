@@ -4,7 +4,7 @@ import com.tauseef.app.entities.Dermatologist;
 
 import java.util.ArrayList;
 
-public interface IDermatologistService {
+public interface IDermatologistService extends ServiceInterface{
 
     ArrayList<Dermatologist> getDoctors();
 

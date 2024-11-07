@@ -17,7 +17,5 @@ public class Main {
             console.error(e.getMessage());
             System.exit(0);
         }
-
     }
-
 }

@@ -9,7 +9,6 @@ import com.tauseef.app.services.interfaces.IAppointmentService;
 import com.tauseef.app.services.interfaces.IClinicService;
 import com.tauseef.app.services.interfaces.IDermatologistService;
 import com.tauseef.app.services.interfaces.IPatientService;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 public class AppointmentService extends BaseService implements IAppointmentService {
 
@@ -33,9 +33,16 @@ public class AppointmentService extends BaseService implements IAppointmentServi
         this.clinicService = new ClinicService(this.appointments);
     }
 
+    public AppointmentService(AppointmentRepository appointments, Scanner scanner) {
+        super(scanner);
+        this.appointments = appointments;
+        this.patientService = new PatientService(scanner);
+        this.dermatologistService = new DermatologistService(scanner);
+        this.clinicService = new ClinicService(this.appointments);
+    }
+
     public void makeAppointment() {
         console.title("Make an Appointment");
-
         Patient patient = patientService.createPatient();
         Dermatologist doctor = dermatologistService.selectDoctor();
         LocalDateTime appointmentDate = this.getAvailableSlot(doctor);
@@ -61,7 +68,6 @@ public class AppointmentService extends BaseService implements IAppointmentServi
     public void viewAppointments() {
 
         console.title("View Appointments by Date");
-
         LocalDate appointmentDate = console.askDate("Please enter appointment date (YYYY-MM-DD):");
         List<Appointment> filterAppointments = appointments.findByDate(appointmentDate);
 
@@ -80,7 +86,6 @@ public class AppointmentService extends BaseService implements IAppointmentServi
             } else {
                 handleContinueOption(filterAppointments);
             }
-
         } else {
             console.emptySpace();
             console.error("No appointments found!");
@@ -146,7 +151,8 @@ public class AppointmentService extends BaseService implements IAppointmentServi
                 for (LocalTime slot : slots) {
                     availableSlots[i++] = slot.format(formatter);
                 }
-                int selectedIndex = console.askOption("Please select your convenient time:", "Available Times", availableSlots) - 1;
+                int selectedIndex = console.askOption("Please select your convenient time:",
+                        "Available Times", availableSlots) - 1;
                 return appointmentDate.atTime(slots.get(selectedIndex));
             }
         }

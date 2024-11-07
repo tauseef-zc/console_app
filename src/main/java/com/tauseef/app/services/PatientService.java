@@ -2,11 +2,16 @@ package com.tauseef.app.services;
 
 import com.tauseef.app.entities.Patient;
 import com.tauseef.app.services.interfaces.IPatientService;
+import java.util.Scanner;
 
 public class PatientService extends BaseService implements IPatientService {
 
     public PatientService() {
         super();
+    }
+
+    public PatientService(Scanner scanner) {
+        super(scanner);
     }
 
     public Patient createPatient() {

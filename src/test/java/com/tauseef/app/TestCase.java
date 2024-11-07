@@ -2,9 +2,12 @@ package com.tauseef.app;
 
 import com.github.javafaker.Faker;
 import com.tauseef.app.entities.*;
+
+import java.io.ByteArrayInputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Scanner;
 
 public class TestCase {
 
@@ -93,6 +96,12 @@ public class TestCase {
         LocalTime wkStartTime = startTime != null ? startTime : LocalTime.now();
         LocalTime wkEndTime = endTime != null ? endTime : LocalTime.now();
         return new WorkDay(wkDay, wkStartTime, wkEndTime);
+    }
+
+    protected Scanner getScanner(String input) {
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        return new Scanner(System.in);
     }
 
 }

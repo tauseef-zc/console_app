@@ -5,7 +5,6 @@ import com.tauseef.app.enums.Color;
 import com.tauseef.app.repositories.AppointmentRepository;
 import com.tauseef.app.repositories.InvoiceRepository;
 import com.tauseef.app.services.interfaces.IPaymentService;
-
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +13,6 @@ public class PaymentService extends BaseService implements IPaymentService {
 
     private final AppointmentRepository appointments;
     private final InvoiceRepository invoices;
-
 
     public PaymentService(AppointmentRepository appointments, InvoiceRepository invoices) {
         this.appointments = appointments;
@@ -44,11 +42,9 @@ public class PaymentService extends BaseService implements IPaymentService {
                         new Invoice(dateTime, appointment.getFullTotal(), appointment.getTaxAmount(), appointment)
                 );
             }
-
             this.generateInvoiceView(invoice);
             this.handleContinueOption();
         }
-
     }
 
     private void generateInvoiceView(Invoice invoice) {

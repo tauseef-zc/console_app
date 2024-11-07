@@ -17,5 +17,4 @@ public class Treatment {
     public double getPrice() {
         return price;
     }
-
 }

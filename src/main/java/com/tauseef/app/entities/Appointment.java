@@ -84,4 +84,8 @@ public class Appointment {
                 '}';
     }
 
+    public static void reset(){
+        indexId = 1;
+    }
+
 }

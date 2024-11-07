@@ -6,7 +6,6 @@ import com.tauseef.app.entities.Treatment;
 import com.tauseef.app.entities.WorkDay;
 import com.tauseef.app.repositories.AppointmentRepository;
 import com.tauseef.app.services.interfaces.IClinicService;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,7 +22,6 @@ public class ClinicService extends BaseService implements IClinicService {
         this.appointments = appointments;
         workingDays = new ArrayList<>();
         treatments = new ArrayList<>();
-
         loadBusinessDays();
         loadTreatments();
     }

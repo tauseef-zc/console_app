@@ -22,7 +22,6 @@ public class Application {
     };
 
     public Application(Console console) {
-
         AppointmentRepository appointmentRepository = new AppointmentRepository();
         InvoiceRepository invoiceRepository = new InvoiceRepository();
         this.appointmentService = new AppointmentService(appointmentRepository);
@@ -36,25 +35,13 @@ public class Application {
             int option = console.askOption("Enter your choice: ", "Main Menu", menuOptions);
 
             switch (option) {
-                case 1:
-                    appointmentService.makeAppointment();
-                    break;
-                case 2:
-                    appointmentService.viewAppointments();
-                    break;
-                case 3:
-                    appointmentService.searchAppointments();
-                    break;
-                case 4:
-                    appointmentService.updateAppointment();
-                    break;
-                case 5:
-                    paymentService.generateInvoice();
-                    break;
-                case 6:
-                    exitSystem();
-                default:
-                    return;
+                case 1: appointmentService.makeAppointment(); break;
+                case 2: appointmentService.viewAppointments(); break;
+                case 3: appointmentService.searchAppointments(); break;
+                case 4: appointmentService.updateAppointment(); break;
+                case 5: paymentService.generateInvoice(); break;
+                case 6: exitSystem();
+                default: return;
             }
         }
     }

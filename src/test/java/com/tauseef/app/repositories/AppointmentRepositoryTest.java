@@ -86,4 +86,5 @@ class AppointmentRepositoryTest extends TestCase {
         repo.delete(found);
         assertNull(repo.findById(found.getId()));
     }
+
 }

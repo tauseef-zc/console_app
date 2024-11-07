@@ -2,7 +2,6 @@ package com.tauseef.app.repositories;
 
 import com.tauseef.app.entities.Appointment;
 import com.tauseef.app.entities.Dermatologist;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +54,4 @@ public class AppointmentRepository {
     public void delete(Appointment appointment) {
         appointments.remove(appointment);
     }
-
 }

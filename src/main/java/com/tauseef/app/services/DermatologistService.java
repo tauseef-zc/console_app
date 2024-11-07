@@ -4,6 +4,7 @@ import com.tauseef.app.entities.Dermatologist;
 import com.tauseef.app.services.interfaces.IDermatologistService;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class DermatologistService extends BaseService implements IDermatologistService {
 
@@ -11,6 +12,12 @@ public class DermatologistService extends BaseService implements IDermatologistS
 
     public DermatologistService() {
         super();
+        this.doctors = new ArrayList<>();
+        seedData();
+    }
+
+    public DermatologistService(Scanner scanner) {
+        super(scanner);
         this.doctors = new ArrayList<>();
         seedData();
     }

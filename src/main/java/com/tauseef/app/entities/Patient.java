@@ -1,7 +1,6 @@
 package com.tauseef.app.entities;
 
 import com.tauseef.app.core.Console;
-
 import java.util.HashMap;
 
 public class Patient {

@@ -19,6 +19,10 @@ public class Console {
         this.scanner = new Scanner(System.in);
     }
 
+    public Console(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     public void heading(String text) {
         String sb = String.valueOf(Color.WHITE_BACKGROUND) +
                 Color.BLACK_BOLD +

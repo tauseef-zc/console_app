@@ -2,7 +2,6 @@ package com.tauseef.app.repositories;
 
 import com.tauseef.app.entities.Appointment;
 import com.tauseef.app.entities.Invoice;
-
 import java.util.ArrayList;
 import java.util.List;
 

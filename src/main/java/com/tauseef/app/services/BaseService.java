@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public abstract class BaseService implements ServiceInterface {
 
-    public Console console;
+    final public Console console;
 
     public BaseService() {
         this.console = new Console();

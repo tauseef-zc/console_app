@@ -56,7 +56,7 @@ class AppointmentServiceTest extends TestCase {
                 AID001
                 2
                 2
-                Ahamed
+                Silva
                 2
                 2
                 """;

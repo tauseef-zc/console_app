@@ -33,10 +33,12 @@ class AppointmentServiceTest extends TestCase {
     @Test
     void rescheduleAppointment() {
 
-        String sb = "AID001\n" +
-                1 + "\n" +
-                "2024-10-18" + "\n" +
-                1 + "\n";
+        String sb = """
+                AID001
+                1
+                2024-10-18
+                1
+                """;
         AppointmentRepository appointmentRepository = new AppointmentRepository();
         AppointmentService appointmentService = new AppointmentService(appointmentRepository, getScanner(sb));
 
@@ -50,12 +52,14 @@ class AppointmentServiceTest extends TestCase {
     @Test
     void updateAppointmentInformation() {
 
-        String sb = "AID001\n" +
-                2 + "\n" +
-                2 + "\n" +
-                "Ahamed" + "\n" +
-                2 + "\n" +
-                2 + "\n";
+        String sb = """
+                AID001
+                2
+                2
+                Ahamed
+                2
+                2
+                """;
         AppointmentRepository appointmentRepository = new AppointmentRepository();
         AppointmentService appointmentService = new AppointmentService(appointmentRepository, getScanner(sb));
 
@@ -71,9 +75,11 @@ class AppointmentServiceTest extends TestCase {
     @Test
     void cancelAppointment() {
 
-        String sb = "AID001\n" +
-                3 + "\n" +
-                1 + "\n";
+        String sb = """
+                AID001
+                3
+                1
+                """;
         AppointmentRepository appointmentRepository = new AppointmentRepository();
         AppointmentService appointmentService = new AppointmentService(appointmentRepository, getScanner(sb));
 

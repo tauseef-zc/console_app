@@ -71,7 +71,7 @@ class AppointmentTest extends TestCase {
         Treatment treatment = createTreatment();
         Appointment appointment = createAppointment();
         appointment.setTreatment(treatment);
-        double expectedTotal = Appointment.registrationFee + treatment.getPrice();
+        double expectedTotal = Math.round(Appointment.registrationFee + treatment.getPrice());
 
         assertEquals(expectedTotal, appointment.getTreatmentTotal());
     }
@@ -81,8 +81,8 @@ class AppointmentTest extends TestCase {
         Treatment treatment = createTreatment();
         Appointment appointment = createAppointment();
         appointment.setTreatment(treatment);
-        double totalAmount = Appointment.registrationFee + treatment.getPrice();
-        double expectedTax = totalAmount * Appointment.taxPercentage / 100;
+        double totalAmount = Math.round(Appointment.registrationFee + treatment.getPrice());
+        double expectedTax = Math.round(totalAmount * Appointment.taxPercentage / 100);
 
         assertEquals(expectedTax, appointment.getTaxAmount());
     }
@@ -92,9 +92,9 @@ class AppointmentTest extends TestCase {
         Treatment treatment = createTreatment();
         Appointment appointment = createAppointment();
         appointment.setTreatment(treatment);
-        double totalAmount = Appointment.registrationFee + treatment.getPrice();
-        double taxAmount = totalAmount * Appointment.taxPercentage / 100;
-        double expectedFullTotal = totalAmount + taxAmount;
+        double totalAmount = Math.round(Appointment.registrationFee + treatment.getPrice());
+        double taxAmount = Math.round(totalAmount * Appointment.taxPercentage / 100);
+        double expectedFullTotal = Math.round(totalAmount + taxAmount);
 
         assertEquals(expectedFullTotal, appointment.getFullTotal());
     }

@@ -62,16 +62,17 @@ public class Appointment {
                 total += treatment.getPrice();
             }
         }
-        return registrationFee + total;
+        return Math.round(registrationFee + total);
     }
 
     public double getTaxAmount() {
         double totalTreatment = getTreatmentTotal();
-        return totalTreatment > 0 ? (totalTreatment * taxPercentage) / 100 : 0.00;
+        double taxAmount = totalTreatment > 0 ? (totalTreatment * taxPercentage) / 100 : 0.00;
+        return Math.round(taxAmount);
     }
 
     public double getFullTotal() {
-        return getTreatmentTotal() + getTaxAmount();
+        return Math.round(getTreatmentTotal() + getTaxAmount());
     }
 
     @Override
